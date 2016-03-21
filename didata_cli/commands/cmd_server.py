@@ -143,6 +143,7 @@ def destroy(client, serverid, serverfilteripv6):
             click.secho("Server {0} is being destroyed".format(serverid), fg='green', bold=True)
         else:
             click.secho("Something went wrong with attempting to destroy {0}".format(serverid))
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 
@@ -162,6 +163,7 @@ def reboot(client, serverid, serverfilteripv6):
             click.secho("Server {0} is being rebooted".format(serverid), fg='green', bold=True)
         else:
             click.secho("Something went wrong with attempting to reboot {0}".format(serverid))
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 
@@ -181,6 +183,7 @@ def reboot_hard(client, serverid, serverfilteripv6):
             click.secho("Server {0} is being rebooted".format(serverid), fg='green', bold=True)
         else:
             click.secho("Something went wrong with attempting to reboot {0}".format(serverid))
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 
@@ -200,6 +203,7 @@ def start(client, serverid, serverfilteripv6):
             click.secho("Server {0} is starting".format(serverid), fg='green', bold=True)
         else:
             click.secho("Something went wrong when attempting to start {0}".format(serverid))
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 
@@ -219,6 +223,7 @@ def shutdown(client, serverid, serverfilteripv6):
             click.secho("Server {0} is shutting down gracefully".format(serverid), fg='green', bold=True)
         else:
             click.secho("Something went wrong when attempting to shutdown {0}".format(serverid))
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 
@@ -237,6 +242,7 @@ def shutdown_hard(client, serverid, serverfilteripv6):
         if response is True:
             click.secho("Server {0} is shutting down hard".format(serverid), fg='green', bold=True)
         else:
-            click.secho("Something went wrong when attempting to shut down {0}".format(serverid))
+            click.secho("Something went wrong when attempting to shutdown {0}".format(serverid))
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)

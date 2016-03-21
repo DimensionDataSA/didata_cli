@@ -232,6 +232,48 @@ def delete_firewall_rule(client, networkid, ruleid):
         handle_dd_api_exception(e)
 
 
+@cli.command()
+@click.option('--networkId', required=True, type=click.UNPROCESSED, help="ID of the network to add the public IP block")
+@pass_client
+def add_public_ip_block(client, networkid):
+    try:
+        networkDomain = client.node.ex_get_network_domain(networkid)
+        ip_block = client.node.ex_add_public_ip_block_to_network_domain(networkDomain)
+        click.secho("Public IP Block with base IP of {0} and block size of {1} added to {2}".format(ip_block.base_ip,
+                    ip_block.size, networkid), fg='green', bold=True)
+    except DimensionDataAPIException as e:
+        handle_dd_api_exception(e)
+
+
+@cli.command()
+@click.option('--networkId', type=click.UNPROCESSED, help="ID of the network to list public IP blocks")
+@pass_client
+def list_public_ip_blocks(client, networkid):
+    try:
+        networkDomain = client.node.ex_get_network_domain(networkid)
+        ip_blocks = client.node.ex_list_public_ip_blocks(networkDomain)
+        for ip_block in ip_blocks:
+            click.secho("ID: {0}".format(ip_block.id), bold=True)
+            click.secho("Base IP: {0}".format(ip_block.base_ip))
+            click.secho("Block size: {0}".format(ip_block.size))
+            click.secho("Status: {0}".format(ip_block.status))
+            click.secho("")
+    except DimensionDataAPIException as e:
+        handle_dd_api_exception(e)
+
+
+@cli.command()
+@click.option('--ipBlockId', type=click.UNPROCESSED, required=True, help="ID of IP block to remove")
+@pass_client
+def delete_public_ip_block(client, ipblockid):
+    try:
+        ip_block = client.node.ex_get_public_ip_block(ipblockid)
+        client.node.ex_delete_public_ip_block(ip_block)
+        click.secho("Public IP block with id {0} deleted.".format(ipblockid), fg='green', bold=True)
+    except DimensionDataAPIException as e:
+        handle_dd_api_exception(e)
+
+
 class ParseNetworkLocation(object):
 
     def __init__(self, location):
