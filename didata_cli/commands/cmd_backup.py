@@ -59,8 +59,8 @@ def info(client, serverid, serverfilteripv6):
             click.secho("Clients:")
             for backup_client in details.clients:
                 click.secho("")
-                click.secho("{0}".format(backup_client.type), bold=True)
-                click.secho("Description: {0}".format(backup_client.description))
+                click.secho("{0}".format(backup_client.type.type), bold=True)
+                click.secho("ID: {0}".format(backup_client.id))
                 click.secho("Schedule: {0}".format(backup_client.schedule_policy))
                 click.secho("Retention: {0}".format(backup_client.storage_policy))
                 click.secho("DownloadURL: {0}".format(backup_client.download_url))

@@ -1,6 +1,24 @@
 Changelog
 =========
 
+changes with didata_cli 0.2.0
+-----------------------------
+
+This marks a new minor version upgrade.
+Mainly due to the fact that new parameters have been added to all functions
+
+general
+~~~~~~~
+
+- Added ability to have multiple output types: json, grid, mediawiki, rst, ect. [jadunham1]
+- Added --query to some CLI parameters.  Can currently query ReturnKeys and ReturnCount [jadunham1]
+
+server
+~~~~~~
+- Added add_disk to server [jadunham1]
+- Added remove_disk to server [jadunham1]
+- Added modify_disk_disk to server [jadunham1]
+
 changes with didata_cli 0.1.12
 ------------------------------
 

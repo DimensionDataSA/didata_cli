@@ -106,3 +106,29 @@ update_ram
 This command will update the ram (GB) on a particular server::
 
     didata server update_ram --serverId <SERVER_ID> --ramInGB 8
+
+add_disk
+--------
+
+This command will add a new disk to a particular server::
+
+    didata server add_disk --serverId <SERVER_ID> --size 50 --speed STANDARD
+
+
+remove_disk
+-----------
+
+This command will remove a disk in slot 2 from a particular server::
+
+    didata server remove_disk --serverId <SERVER_ID> --diskId 2
+
+modify_disk
+-----------
+
+This command will modify a disk in slot 2 to be 60Gb::
+
+    didata server modify_disk --serverId <SERVER_ID> --diskId 2 --size 60
+
+This command will modify a disk in slot 2 to be HIGH PERFORMANCE::
+
+    didata server modify_disk --serverId <SERVER_ID> --diskId 2 --speed HIGHPERFORMANCE

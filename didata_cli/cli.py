@@ -6,6 +6,7 @@ import os
 import sys
 
 CONTEXT_SETTINGS = dict(auto_envvar_prefix='DIDATA')
+DEFAULT_OUTPUT_TYPE = 'pretty'
 
 
 class DiDataCLIClient(object):
@@ -48,9 +49,11 @@ class DiDataCLI(click.MultiCommand):
 @click.option('--user', prompt=True)
 @click.option('--password', prompt=True, hide_input=True)
 @click.option('--region', default=DEFAULT_REGION)
+@click.option('--outputType', default=DEFAULT_OUTPUT_TYPE)
 @pass_client
-def cli(client, verbose, user, password, region):
+def cli(client, verbose, user, password, region, outputtype):
     """An interface into the Dimension Data Cloud"""
     client.init_client(user, password, region)
+    client.output_type = outputtype
     if verbose:
         click.echo('Verbose mode enabled')
