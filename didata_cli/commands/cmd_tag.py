@@ -28,6 +28,7 @@ def create_key(client, name, description, valuerequired, displayonreport):
             click.secho("Tag key {0} created".format(name), fg='green', bold=True)
         else:
             click.secho("Error when creating tag key".format(name, fg='red', bold=True))
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 
@@ -50,6 +51,7 @@ def modify_key(client, tagkeyid, name, description, valuerequired, displayonrepo
             click.secho("Tag key {0} modified".format(tagkeyid), fg='green', bold=True)
         else:
             click.secho("Error when modifying tag key".format(name, fg='red', bold=True))
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 
@@ -64,6 +66,7 @@ def remove_key(client, tagkeyid):
             click.secho("Tag key {0} removed".format(tagkeyid), fg='green', bold=True)
         else:
             click.secho("Error when removing tag key", fg='red', bold=True)
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 
@@ -107,6 +110,7 @@ def apply(client, id, assettype, tagkeyname, tagkeyvalue):
             click.secho("Tag applied to {0}".format(id), fg='green', bold=True)
         else:
             click.secho("Error when applying tag", fg='red', bold=True)
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 
@@ -126,6 +130,7 @@ def remove(client, id, assettype, tagkeyname):
             click.secho("Tag removed from {0}".format(id), fg='green', bold=True)
         else:
             click.secho("Error when removing tag", fg='red', bold=True)
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 

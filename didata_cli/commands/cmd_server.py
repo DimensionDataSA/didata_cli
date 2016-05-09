@@ -395,34 +395,44 @@ def disable_monitoring(client, serverid, serverfilteripv6):
 
 
 @cli.command()
-@click.option('--serverId', help="The server ID to tag", required=True)
+@click.option('--serverId', help="The server ID to tag")
+@click.option('--serverFilterIpv6', help='The filter for ipv6')
 @click.option('--tagKeyName', type=click.UNPROCESSED, help="The key name", required=True)
 @click.option('--tagKeyValue', help="The value of the key if needed")
 @pass_client
-def apply_tag(client, serverid, tagkeyname, tagkeyvalue):
+def apply_tag(client, serverid, serverfilteripv6, tagkeyname, tagkeyvalue):
+    node = None
+    if not serverid:
+        serverid = get_single_server_id_from_filters(client, ex_ipv6=serverfilteripv6)
+    node = client.node.ex_get_node_by_id(serverid)
     try:
-        server = client.node.ex_get_node_by_id(serverid)
-        response = client.node.ex_apply_tag_to_asset(server, tagkeyname, tagkeyvalue)
+        response = client.node.ex_apply_tag_to_asset(node, tagkeyname, tagkeyvalue)
         if response is True:
             click.secho("Tag applied to {0}".format(serverid), fg='green', bold=True)
         else:
             click.secho("Error when applying tag", fg='red', bold=True)
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 
 
 @cli.command()
-@click.option('--serverId', help="The server ID to remove a tag from", required=True)
+@click.option('--serverId', help="The server ID to remove a tag from")
+@click.option('--serverFilterIpv6', help='The filter for ipv6')
 @click.option('--tagKeyName', type=click.UNPROCESSED, help="The key name to remove", required=True)
 @pass_client
-def remove_tag(client, serverid, tagkeyname):
+def remove_tag(client, serverid, serverfilteripv6, tagkeyname):
+    node = None
+    if not serverid:
+        serverid = get_single_server_id_from_filters(client, ex_ipv6=serverfilteripv6)
+    node = client.node.ex_get_node_by_id(serverid)
     try:
-        server = client.node.ex_get_node_by_id(serverid)
-        response = client.node.ex_remove_tag_from_asset(server, tagkeyname)
+        response = client.node.ex_remove_tag_from_asset(node, tagkeyname)
         if response is True:
             click.secho("Tag removed from {0}".format(serverid), fg='green', bold=True)
         else:
             click.secho("Error when removing tag", fg='red', bold=True)
+            exit(1)
     except DimensionDataAPIException as e:
         handle_dd_api_exception(e)
 

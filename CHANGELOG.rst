@@ -1,6 +1,17 @@
 Changelog
 =========
 
+changes with didata_cli 0.2.4
+-----------------------------
+
+general
+~~~~~~~
+- Tagging calls added [jadunham1]
+
+server
+~~~~~~
+- Added add_disk to server [jadunham1]
+
 changes with didata_cli 0.2.0
 -----------------------------
 

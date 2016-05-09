@@ -664,3 +664,89 @@ class DimensionDataCLITestCase(unittest.TestCase):
                                      '--serverId', '8aeff10c-c918-4021-b2ce-93e4a209418b'])
         self.assertTrue('REASON 539' in result.output)
         self.assertTrue(result.exit_code == 1)
+
+    def test_server_apply_tag(self, node_client):
+        node_client.return_value.ex_get_node_by_id.return_value = load_dd_obj('node.json')
+        node_client.return_value.ex_apply_tag_to_asset.return_value = True
+        result = self.runner.invoke(cli,
+                                    ['server', 'apply_tag',
+                                     '--serverId', '8aeff10c-c918-4021-b2ce-93e4a209418b',
+                                     '--tagKeyName', 'faketagkey', '--tagKeyValue', 'faketagvalue'])
+        self.assertTrue('Tag applied to' in result.output)
+        self.assertTrue(result.exit_code == 0)
+
+    def test_server_apply_tag_filters(self, node_client):
+        node_client.return_value.list_nodes.return_value = load_dd_obj('single_node_list.json')
+        node_client.return_value.ex_get_node_by_id.return_value = load_dd_obj('node.json')
+        node_client.return_value.ex_apply_tag_to_asset.return_value = True
+        result = self.runner.invoke(cli,
+                                    ['server', 'apply_tag',
+                                     '--serverFilterIpv6', '::1',
+                                     '--tagKeyName', 'faketagkey', '--tagKeyValue', 'faketagvalue'])
+        self.assertTrue('Tag applied to' in result.output)
+        self.assertTrue(result.exit_code == 0)
+
+    def test_server_apply_tag_return_False(self, node_client):
+        node_client.return_value.list_nodes.return_value = load_dd_obj('single_node_list.json')
+        node_client.return_value.ex_get_node_by_id.return_value = load_dd_obj('node.json')
+        node_client.return_value.ex_apply_tag_to_asset.return_value = False
+        result = self.runner.invoke(cli,
+                                    ['server', 'apply_tag',
+                                     '--serverFilterIpv6', '::1',
+                                     '--tagKeyName', 'faketagkey', '--tagKeyValue', 'faketagvalue'])
+        self.assertTrue('Error when applying tag' in result.output)
+        self.assertTrue(result.exit_code == 1)
+
+    def test_server_apply_tag_APIException(self, node_client):
+        node_client.return_value.ex_get_node_by_id.return_value = load_dd_obj('node.json')
+        node_client.return_value.ex_apply_tag_to_asset.side_effect = DimensionDataAPIException(
+            code='REASON 540', msg='Cannot apply tag', driver=None)
+        result = self.runner.invoke(cli,
+                                    ['server', 'apply_tag',
+                                     '--serverId', '8aeff10c-c918-4021-b2ce-93e4a209418b',
+                                     '--tagKeyName', 'faketagkey', '--tagKeyValue', 'faketagvalue'])
+        self.assertTrue('REASON 540' in result.output)
+        self.assertTrue(result.exit_code == 1)
+
+    def test_server_remove_tag(self, node_client):
+        node_client.return_value.ex_get_node_by_id.return_value = load_dd_obj('node.json')
+        node_client.return_value.ex_remove_tag_from_asset.return_value = True
+        result = self.runner.invoke(cli,
+                                    ['server', 'remove_tag',
+                                     '--serverId', '8aeff10c-c918-4021-b2ce-93e4a209418b',
+                                     '--tagKeyName', 'faketagkey'])
+        self.assertTrue('Tag removed from' in result.output)
+        self.assertTrue(result.exit_code == 0)
+
+    def test_server_remove_tag_filters(self, node_client):
+        node_client.return_value.list_nodes.return_value = load_dd_obj('single_node_list.json')
+        node_client.return_value.ex_get_node_by_id.return_value = load_dd_obj('node.json')
+        node_client.return_value.ex_remove_tag_from_asset.return_value = True
+        result = self.runner.invoke(cli,
+                                    ['server', 'remove_tag',
+                                     '--serverFilterIpv6', '::1',
+                                     '--tagKeyName', 'faketagkey'])
+        self.assertTrue('Tag removed from' in result.output)
+        self.assertTrue(result.exit_code == 0)
+
+    def test_server_remove_tag_return_False(self, node_client):
+        node_client.return_value.list_nodes.return_value = load_dd_obj('single_node_list.json')
+        node_client.return_value.ex_get_node_by_id.return_value = load_dd_obj('node.json')
+        node_client.return_value.ex_remove_tag_from_asset.return_value = False
+        result = self.runner.invoke(cli,
+                                    ['server', 'remove_tag',
+                                     '--serverFilterIpv6', '::1',
+                                     '--tagKeyName', 'faketagkey'])
+        self.assertTrue('Error when removing tag' in result.output)
+        self.assertTrue(result.exit_code == 1)
+
+    def test_server_remove_tag_APIException(self, node_client):
+        node_client.return_value.ex_get_node_by_id.return_value = load_dd_obj('node.json')
+        node_client.return_value.ex_remove_tag_from_asset.side_effect = DimensionDataAPIException(
+            code='REASON 541', msg='Cannot remove tag', driver=None)
+        result = self.runner.invoke(cli,
+                                    ['server', 'remove_tag',
+                                     '--serverId', '8aeff10c-c918-4021-b2ce-93e4a209418b',
+                                     '--tagKeyName', 'faketagkey'])
+        self.assertTrue('REASON 541' in result.output)
+        self.assertTrue(result.exit_code == 1)
