@@ -190,7 +190,9 @@ def create_firewall_rule(client, name, action, networkdomainid, ipversion, proto
     try:
         network_domain = client.node.ex_get_network_domain(networkdomainid)
         source_any = True if sourceip == 'ANY' else False
+        sourcestartport = None if sourcestartport == 'ANY' else sourcestartport
         dest_any = True if destinationip == 'ANY' else False
+        destinationstartport = None if destinationstartport == 'ANY' else destinationstartport
         source_address = DimensionDataFirewallAddress(source_any, sourceip, sourceip_prefix_size, sourcestartport,
                                                       sourceendport, None, None)
         dest_address = DimensionDataFirewallAddress(dest_any, destinationip, destinationip_prefix_size,
