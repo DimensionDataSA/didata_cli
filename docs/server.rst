@@ -152,3 +152,18 @@ update_monitoring
 This command will update monitoring on particular server::
 
     didata server update_monitoring --serverId <SERVER_ID> --servicePlan <SERVICE_PLAN>
+
+change_network_adapter
+----------------------
+
+This command will update network adapter type on particular server.
+  Valid TYPE values are: E1000, E1000E, ENHANCED_VMXNET2, FLEXIBLE_PCNET32, VMXNET3::
+
+	didata_server change_netadapter --nicId <NIC_ID> --type <TYPE>
+	
+exchange_nicvlan
+--------------
+
+This command will swap the VLANs assigned to two NICs on a particular server:: 
+
+	didata_server exchange_nicvlan --nicId1 <NIC_ID> --nicId2 <NIC_ID>

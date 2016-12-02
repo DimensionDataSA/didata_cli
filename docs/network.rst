@@ -85,3 +85,29 @@ list_firewall_rules
 This command will list all vlans::
 
     didata network list_firewall_rules --networkDomainId <networkDomainId>
+    
+list_nics
+---------
+
+This command will list all NICs - can be filtered::
+
+	didata network list_nics --vlanId <VLAN_ID>
+	
+	filters
+	*******
+
+	You can filter the list of servers easily to your specification.
+	The filters include:
+
+	- vlanId (Required)
+	- nicId
+	- serverId
+	- securityGroupId
+
+	Filter by serverId::
+
+    	didata network list_nics --vlanId <VLAN_ID> --serverId <SERVER_ID>
+
+	Filter by nicId::
+
+    	didata network list_nics --vlanId <VLAN_ID> --nicId <NIC_ID>
